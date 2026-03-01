@@ -1,8 +1,3 @@
-Gemini đã nói
-Một file README.md chuyên nghiệp không chỉ giúp bạn quản lý dự án tốt hơn mà còn là "bản CV" ấn tượng khi bạn gửi cho các nhà tuyển dụng Nhật Bản (vốn rất coi trọng sự chỉn chu và tài liệu hóa).
-
-Dưới đây là mẫu README tối ưu cho dự án JobUp của bạn, tập trung vào các công nghệ bạn đang dùng (React, Supabase, Docker):
-
 🚀 JobUp - Job Application Tracker
 JobUp là một ứng dụng web giúp người dùng theo dõi và quản lý quá trình ứng tuyển công việc, đặc biệt tối ưu cho lộ trình chinh phục các công ty Nhật Bản. Hệ thống cho phép quản lý trạng thái từ lúc nộp đơn đến khi nhận Offer thông qua mô hình Kanban trực quan.
 
