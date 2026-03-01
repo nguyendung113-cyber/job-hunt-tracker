@@ -1,16 +1,69 @@
-# React + Vite
+Gemini đã nói
+Một file README.md chuyên nghiệp không chỉ giúp bạn quản lý dự án tốt hơn mà còn là "bản CV" ấn tượng khi bạn gửi cho các nhà tuyển dụng Nhật Bản (vốn rất coi trọng sự chỉn chu và tài liệu hóa).
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Dưới đây là mẫu README tối ưu cho dự án JobUp của bạn, tập trung vào các công nghệ bạn đang dùng (React, Supabase, Docker):
 
-Currently, two official plugins are available:
+🚀 JobUp - Job Application Tracker
+JobUp là một ứng dụng web giúp người dùng theo dõi và quản lý quá trình ứng tuyển công việc, đặc biệt tối ưu cho lộ trình chinh phục các công ty Nhật Bản. Hệ thống cho phép quản lý trạng thái từ lúc nộp đơn đến khi nhận Offer thông qua mô hình Kanban trực quan.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🛠 Tech Stack
+Frontend: React.js (Vite), Lucide React (Icons), React Hot Toast (Notifications).
 
-## React Compiler
+Backend as a Service: Supabase (Auth & PostgreSQL).
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+DevOps: Docker & Docker Compose.
 
-## Expanding the ESLint configuration
+Security: Row Level Security (RLS) đảm bảo dữ liệu riêng tư cho từng user.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+✨ Tính năng hiện có
+[x] Authentication: Đăng ký, đăng nhập và đăng xuất qua Supabase Auth.
+
+[x] Real-time Notify: Thông báo trạng thái hoạt động qua Toast.
+
+[x] User Privacy: Mỗi người dùng chỉ quản lý và nhìn thấy dữ liệu của riêng mình.
+
+[x] Responsive Design: Giao diện hoạt động tốt trên cả Desktop và Mobile.
+
+[x] Containerized: Triển khai nhanh chóng với Docker.
+
+📦 Cài đặt và Chạy dự án
+1. Yêu cầu hệ thống
+Node.js (v18+)
+
+Docker & Docker Compose
+
+Tài khoản SupabaseGemini đã nói
+Một file README.md chuyên nghiệp không chỉ giúp bạn quản lý dự án tốt hơn mà còn là "bản CV" ấn tượng khi bạn gửi cho các nhà tuyển dụng Nhật Bản (vốn rất coi trọng sự chỉn chu và tài liệu hóa).
+
+Dưới đây là mẫu README tối ưu cho dự án JobUp của bạn, tập trung vào các công nghệ bạn đang dùng (React, Supabase, Docker):
+
+🚀 JobUp - Job Application Tracker
+JobUp là một ứng dụng web giúp người dùng theo dõi và quản lý quá trình ứng tuyển công việc, đặc biệt tối ưu cho lộ trình chinh phục các công ty Nhật Bản. Hệ thống cho phép quản lý trạng thái từ lúc nộp đơn đến khi nhận Offer thông qua mô hình Kanban trực quan.
+
+🛠 Tech Stack
+Frontend: React.js (Vite), Lucide React (Icons), React Hot Toast (Notifications).
+
+Backend as a Service: Supabase (Auth & PostgreSQL).
+
+DevOps: Docker & Docker Compose.
+
+Security: Row Level Security (RLS) đảm bảo dữ liệu riêng tư cho từng user.
+
+✨ Tính năng hiện có
+[x] Authentication: Đăng ký, đăng nhập và đăng xuất qua Supabase Auth.
+
+[x] Real-time Notify: Thông báo trạng thái hoạt động qua Toast.
+
+[x] User Privacy: Mỗi người dùng chỉ quản lý và nhìn thấy dữ liệu của riêng mình.
+
+[x] Responsive Design: Giao diện hoạt động tốt trên cả Desktop và Mobile.
+
+[x] Containerized: Triển khai nhanh chóng với Docker.
+
+📦 Cài đặt và Chạy dự án
+1. Yêu cầu hệ thống
+Node.js (v18+)
+
+Docker & Docker Compose
+
+Tài khoản Supabase
