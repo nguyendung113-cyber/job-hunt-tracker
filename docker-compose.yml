@@ -1,0 +1,7 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    container_name: job-tracker-container
+    ports:
+      - "3000:80"
