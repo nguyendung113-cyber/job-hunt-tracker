@@ -1,61 +1,80 @@
-import { useEffect, useState } from 'react'
-import { supabase } from './supabaseClient'
-import Header from './components/Header.jsx'
-import { Toaster } from 'react-hot-toast';
+import { useEffect, useState } from "react";
+import { supabase } from "./supabaseClient";
+import Header from "./components/Header.jsx";
+import { Toaster } from "react-hot-toast";
+import AddJobForm from "./components/AddJobForm";
+import KanbanBoard from "./components/KanbanBoard";
+import "./App.css";
+import Footer from "./components/Footer"; // Thêm dòng này ở đầu file
 
 function App() {
   const [user, setUser] = useState(null);
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const handleJobAdded = () => {
+    setRefreshKey((prev) => prev + 1); // Không cần window.location.reload() nữa
+  };
 
   useEffect(() => {
-    // 1. Kiểm tra session ngay khi load trang (để giữ đăng nhập khi F5)
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
     });
 
-    // 2. Lắng nghe thay đổi trạng thái (Đây là phần quan trọng nhất!)
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null); // Cập nhật user ngay khi Login thành công
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
     });
 
     return () => subscription.unsubscribe();
   }, []);
-  
+
   return (
     <div className="app-container">
-      {/* CHỖ CẦN SỬA: Truyền biến user xuống cho Header */}
-        <Toaster
-          toastOptions={{
-            style: {
-              background: '#363636',
-              color: '#fff',
-              borderRadius: '8px',
-              fontSize: '14px',
-            },
-            success: {
-              duration: 3000,
-              theme: { primary: '#10b981' },
-            },
-          }}
-        />      
+      <Toaster
+        toastOptions={{
+          style: {
+            background: "#363636",
+            color: "#fff",
+            borderRadius: "8px",
+            fontSize: "14px",
+          },
+          success: {
+            duration: 3000,
+            theme: { primary: "#10b981" },
+          },
+        }}
+      />
       <Header user={user} />
-      
-      <main style={{ maxWidth: '1280px', margin: '0 auto', paddingTop: '100px', paddingLeft: '24px', paddingRight: '24px' }}>
-        {/* Lời chào cá nhân hóa dựa trên trạng thái đăng nhập */}
+
+      {/* Bọc toàn bộ nội dung vào dashboard-container để căn giữa */}
+      <main className="dashboard-container">
         {user ? (
-          <div className="welcome-section">
-            <h2 style={{ fontSize: '2rem', color: '#111827' }}>
-              Chào mừng trở lại, <span style={{ color: '#2563eb' }}>{user.email.split('@')[0]}</span>! 👋
-            </h2>
-            <p style={{ color: '#6b7280' }}>Hôm nay bạn muốn nộp đơn vào công ty nào?</p>
-          </div>
+          <>
+            <div className="dashboard-header">
+              <h2>
+                Bảng điều khiển công việc <span className="jp-badge">JP</span>
+              </h2>
+              <AddJobForm onJobAdded={handleJobAdded} />
+            </div>
+
+            <div className="board-wrapper">
+              <KanbanBoard key={refreshKey} />
+            </div>
+          </>
         ) : (
-          <h2 style={{ fontSize: '2rem', color: '#111827' }}>Chào mừng bạn đến với JobUp!</h2>
+          <div className="hero-section">
+            <h1>Bắt đầu hành trình sự nghiệp tại Nhật Bản cùng JobUp</h1>
+            <p>
+              Đăng nhập để quản lý các đơn ứng tuyển của bạn một cách khoa học.
+            </p>
+          </div>
         )}
-        
-        {/* Code Kanban của bạn sẽ ở đây */}
       </main>
+
+      <Footer />
     </div>
   );
 }
 
-export default App
+export default App;
