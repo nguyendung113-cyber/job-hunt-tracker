@@ -1,11 +1,11 @@
-import { supabase } from '../lib/supabase';
+import { supabase } from "../lib/supabase";
 
 /**
  * Job Service - Layer tách biệt logic API với UI
  * Chịu trách nhiệm giao tiếp với Supabase
  */
 
-const JOB_TABLE = 'jobs';
+const JOB_TABLE = "jobs";
 
 /**
  * Lấy tất cả jobs của user
@@ -14,14 +14,14 @@ const JOB_TABLE = 'jobs';
  */
 export const getJobs = async (userId) => {
   if (!userId) {
-    return { data: null, error: { message: 'User not authenticated' } };
+    return { data: null, error: { message: "User not authenticated" } };
   }
 
   return await supabase
     .from(JOB_TABLE)
-    .select('*')
-    .eq('user_id', userId)
-    .order('created_at', { ascending: false });
+    .select("*")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false });
 };
 
 /**
@@ -30,10 +30,7 @@ export const getJobs = async (userId) => {
  * @returns {Promise<{data, error}>}
  */
 export const createJob = async (jobData) => {
-  return await supabase
-    .from(JOB_TABLE)
-    .insert([jobData])
-    .select();
+  return await supabase.from(JOB_TABLE).insert([jobData]).select();
 };
 
 /**
@@ -46,7 +43,7 @@ export const updateJob = async (jobId, updates) => {
   return await supabase
     .from(JOB_TABLE)
     .update(updates)
-    .eq('id', jobId)
+    .eq("id", jobId)
     .select();
 };
 
@@ -56,10 +53,7 @@ export const updateJob = async (jobId, updates) => {
  * @returns {Promise<{data, error}>}
  */
 export const deleteJob = async (jobId) => {
-  return await supabase
-    .from(JOB_TABLE)
-    .delete()
-    .eq('id', jobId);
+  return await supabase.from(JOB_TABLE).delete().eq("id", jobId);
 };
 
 /**
@@ -69,10 +63,7 @@ export const deleteJob = async (jobId) => {
  * @returns {Promise<{data, error}>}
  */
 export const updateJobStatus = async (jobId, status) => {
-  return await supabase
-    .from(JOB_TABLE)
-    .update({ status })
-    .eq('id', jobId);
+  return await supabase.from(JOB_TABLE).update({ status }).eq("id", jobId);
 };
 
 export default {

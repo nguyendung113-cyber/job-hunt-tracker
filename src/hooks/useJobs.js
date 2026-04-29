@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
-import { supabase } from '../lib/supabase';
-import toast from 'react-hot-toast';
+import { useState, useEffect, useCallback } from "react";
+import { supabase } from "../lib/supabase";
+import toast from "react-hot-toast";
 
 /**
  * Custom hook for job CRUD operations
@@ -15,7 +15,7 @@ export const useJobs = (userId) => {
   // Fetch jobs from Supabase
   const fetchJobs = useCallback(async () => {
     if (!userId) {
-      console.log('Chưa đăng nhập');
+      console.log("Chưa đăng nhập");
       return;
     }
 
@@ -24,10 +24,10 @@ export const useJobs = (userId) => {
 
     try {
       const { data, error: fetchError } = await supabase
-        .from('jobs')
-        .select('*')
-        .eq('user_id', userId)
-        .order('created_at', { ascending: false });
+        .from("jobs")
+        .select("*")
+        .eq("user_id", userId)
+        .order("created_at", { ascending: false });
 
       if (fetchError) {
         throw fetchError;
@@ -35,9 +35,9 @@ export const useJobs = (userId) => {
 
       setJobs(data || []);
     } catch (err) {
-      console.error('Error fetching jobs:', err);
+      console.error("Error fetching jobs:", err);
       setError(err.message);
-      toast.error('Không thể tải dữ liệu');
+      toast.error("Không thể tải dữ liệu");
     } finally {
       setLoading(false);
     }
@@ -54,7 +54,7 @@ export const useJobs = (userId) => {
 
     try {
       const { data, error: insertError } = await supabase
-        .from('jobs')
+        .from("jobs")
         .insert([jobData])
         .select();
 
@@ -62,11 +62,11 @@ export const useJobs = (userId) => {
         throw insertError;
       }
 
-      toast.success('Đã thêm công việc mới! 🇯🇵');
+      toast.success("Đã thêm công việc mới! 🇯🇵");
       setJobs((prev) => [data[0], ...prev]);
       return { success: true, data: data[0] };
     } catch (err) {
-      console.error('Error adding job:', err);
+      console.error("Error adding job:", err);
       toast.error(`Lỗi khi lưu: ${err.message}`);
       return { success: false, error: err };
     } finally {
@@ -78,23 +78,23 @@ export const useJobs = (userId) => {
   const updateJobStatus = async (jobId, newStatus) => {
     try {
       const { error: updateError } = await supabase
-        .from('jobs')
+        .from("jobs")
         .update({ status: newStatus })
-        .eq('id', jobId);
+        .eq("id", jobId);
 
       if (updateError) {
         throw updateError;
       }
 
-      toast.success('Đã cập nhật trạng thái');
+      toast.success("Đã cập nhật trạng thái");
       setJobs((prevJobs) =>
         prevJobs.map((job) =>
-          job.id === jobId ? { ...job, status: newStatus } : job
-        )
+          job.id === jobId ? { ...job, status: newStatus } : job,
+        ),
       );
       return { success: true };
     } catch (err) {
-      console.error('Error updating job:', err);
+      console.error("Error updating job:", err);
       toast.error(`Cập nhật thất bại: ${err.message}`);
       return { success: false, error: err };
     }
@@ -102,26 +102,26 @@ export const useJobs = (userId) => {
 
   // Delete job
   const deleteJob = async (jobId) => {
-    if (!window.confirm('Bạn có chắc chắn muốn xóa?')) {
+    if (!window.confirm("Bạn có chắc chắn muốn xóa?")) {
       return { success: false, cancelled: true };
     }
 
     try {
       const { error: deleteError } = await supabase
-        .from('jobs')
+        .from("jobs")
         .delete()
-        .eq('id', jobId);
+        .eq("id", jobId);
 
       if (deleteError) {
         throw deleteError;
       }
 
-      toast.success('Đã xóa thành công');
+      toast.success("Đã xóa thành công");
       setJobs((prevJobs) => prevJobs.filter((job) => job.id !== jobId));
       return { success: true };
     } catch (err) {
-      console.error('Error deleting job:', err);
-      toast.error('Lỗi xóa dữ liệu');
+      console.error("Error deleting job:", err);
+      toast.error("Lỗi xóa dữ liệu");
       return { success: false, error: err };
     }
   };

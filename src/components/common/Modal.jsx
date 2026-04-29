@@ -1,11 +1,11 @@
-import React from 'react';
-import { X } from 'lucide-react';
-import './Modal.css';
+import React from "react";
+import { X } from "lucide-react";
+import "./Modal.css";
 
 /**
  * Modal - Component modal chung
  */
-const Modal = ({ isOpen, onClose, title, children, className = '' }) => {
+const Modal = ({ isOpen, onClose, title, children, className = "" }) => {
   if (!isOpen) return null;
 
   const handleOverlayClick = (e) => {

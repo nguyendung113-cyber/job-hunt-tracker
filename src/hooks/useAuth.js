@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
-import { supabase } from '../lib/supabase';
-import toast from 'react-hot-toast';
+import { useState, useEffect, useCallback } from "react";
+import { supabase } from "../lib/supabase";
+import toast from "react-hot-toast";
 
 /**
  * Custom hook for authentication management
@@ -13,10 +13,12 @@ export const useAuth = () => {
   // Fetch current session
   const fetchSession = useCallback(async () => {
     try {
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       setUser(session?.user ?? null);
     } catch (error) {
-      console.error('Error fetching session:', error);
+      console.error("Error fetching session:", error);
     } finally {
       setLoading(false);
     }
@@ -26,11 +28,11 @@ export const useAuth = () => {
   useEffect(() => {
     fetchSession();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setUser(session?.user ?? null);
-      }
-    );
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
 
     return () => subscription.unsubscribe();
   }, [fetchSession]);
@@ -47,7 +49,7 @@ export const useAuth = () => {
       return { success: false, error };
     }
 
-    toast.success('Chào mừng bạn quay trở lại! 🇯🇵');
+    toast.success("Chào mừng bạn quay trở lại! 🇯🇵");
     return { success: true, data };
   };
 
@@ -63,7 +65,7 @@ export const useAuth = () => {
       return { success: false, error };
     }
 
-    toast.success('Đăng ký thành công! Hãy bắt đầu hành trình sự nghiệp.');
+    toast.success("Đăng ký thành công! Hãy bắt đầu hành trình sự nghiệp.");
     return { success: true, data };
   };
 
@@ -71,10 +73,10 @@ export const useAuth = () => {
   const logout = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
-      toast.error('Có lỗi khi đăng xuất.');
+      toast.error("Có lỗi khi đăng xuất.");
       return { success: false, error };
     }
-    toast.success('Đã đăng xuất. Hẹn gặp lại bạn sớm!');
+    toast.success("Đã đăng xuất. Hẹn gặp lại bạn sớm!");
     return { success: true };
   };
 

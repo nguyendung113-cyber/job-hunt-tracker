@@ -1,11 +1,19 @@
-import React from 'react';
-import { getStatusClass, formatDate } from '../../utils/helpers';
+import React from "react";
+import { getStatusClass, formatDate } from "../../utils/helpers";
 
 /**
  * JobCard - Hiển thị thông tin một job
  */
 const JobCard = ({ job, onStatusChange, onDelete }) => {
-  const { id, company_name, position, japanese_level, status, notes, created_at } = job;
+  const {
+    id,
+    company_name,
+    position,
+    japanese_level,
+    status,
+    notes,
+    created_at,
+  } = job;
 
   return (
     <tr key={id}>
@@ -36,8 +44,8 @@ const JobCard = ({ job, onStatusChange, onDelete }) => {
             <option value="Offered">Nhận Offer</option>
             <option value="Rejected">Từ chối</option>
           </select>
-          <button 
-            className="btn-delete" 
+          <button
+            className="btn-delete"
             onClick={() => onDelete(id)}
             aria-label="Xóa công việc"
           >
@@ -46,7 +54,7 @@ const JobCard = ({ job, onStatusChange, onDelete }) => {
         </div>
       </td>
       <td data-label="Ghi chú">
-        <span className="notes-text">{notes || '-'}</span>
+        <span className="notes-text">{notes || "-"}</span>
       </td>
     </tr>
   );

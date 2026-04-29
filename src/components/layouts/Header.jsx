@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { BriefcaseBusiness, Menu, X, LogOut } from 'lucide-react';
-import './Header.css';
+import React, { useState } from "react";
+import { BriefcaseBusiness, Menu, X, LogOut } from "lucide-react";
+import "./Header.css";
 
 const Header = ({ user, onLogout, onLoginClick, onSignupClick }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -15,16 +15,22 @@ const Header = ({ user, onLogout, onLoginClick, onSignupClick }) => {
           <div className="logo-icon">
             <BriefcaseBusiness size={22} />
           </div>
-          <h1 className="logo-text">Job<span>Up</span></h1>
+          <h1 className="logo-text">
+            Job<span>Up</span>
+          </h1>
         </div>
 
         {/* Hamburger (Mobile) */}
-        <button className="menu-toggle" onClick={toggleMenu} aria-label="Toggle menu">
+        <button
+          className="menu-toggle"
+          onClick={toggleMenu}
+          aria-label="Toggle menu"
+        >
           {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
 
         {/* Auth Buttons */}
-        <div className={`auth-buttons ${isMenuOpen ? 'active' : ''}`}>
+        <div className={`auth-buttons ${isMenuOpen ? "active" : ""}`}>
           {user ? (
             <div className="user-profile-nav">
               <span className="user-email-display">{user.email}</span>

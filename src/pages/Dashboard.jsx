@@ -1,21 +1,23 @@
-import React, { useState } from 'react';
-import { useAuth } from '../hooks/useAuth';
-import { useJobs } from '../hooks/useJobs';
-import Header from '../components/layouts/Header';
-import Footer from '../components/layouts/Footer';
-import AddJobForm from '../components/features/AddJobForm';
-import JobTable from '../components/features/JobTable';
-import LoginModal from '../components/features/LoginModal';
-import SignupModal from '../components/features/SignupModal';
-import { Toaster } from 'react-hot-toast';
-import '../styles/variables.css';
-import '../styles/global.css';
-import './Dashboard.css';
+import React, { useState } from "react";
+import { useAuth } from "../hooks/useAuth";
+import { useJobs } from "../hooks/useJobs";
+import Header from "../components/layouts/Header";
+import Footer from "../components/layouts/Footer";
+import AddJobForm from "../components/features/AddJobForm";
+import JobTable from "../components/features/JobTable";
+import LoginModal from "../components/features/LoginModal";
+import SignupModal from "../components/features/SignupModal";
+import { Toaster } from "react-hot-toast";
+import "../styles/variables.css";
+import "../styles/global.css";
+import "./Dashboard.css";
 
 const Dashboard = () => {
   const { user, login, signup, logout } = useAuth();
-  const { jobs, loading, addJob, updateJobStatus, deleteJob } = useJobs(user?.id);
-  
+  const { jobs, loading, addJob, updateJobStatus, deleteJob } = useJobs(
+    user?.id,
+  );
+
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
 
@@ -31,7 +33,7 @@ const Dashboard = () => {
 
   const handleJobAdded = (newJob) => {
     // Jobs will be updated automatically via useJobs hook
-    console.log('Job added:', newJob);
+    console.log("Job added:", newJob);
   };
 
   return (
@@ -39,20 +41,20 @@ const Dashboard = () => {
       <Toaster
         toastOptions={{
           style: {
-            background: '#363636',
-            color: '#fff',
-            borderRadius: '8px',
-            fontSize: '14px',
+            background: "#363636",
+            color: "#fff",
+            borderRadius: "8px",
+            fontSize: "14px",
           },
           success: {
             duration: 3000,
-            theme: { primary: '#10b981' },
+            theme: { primary: "#10b981" },
           },
         }}
       />
 
-      <Header 
-        user={user} 
+      <Header
+        user={user}
         onLogout={logout}
         onLoginClick={openLogin}
         onSignupClick={openSignup}
@@ -62,8 +64,8 @@ const Dashboard = () => {
         {user ? (
           <>
             <AddJobForm onJobAdded={handleJobAdded} />
-            <JobTable 
-              jobs={jobs} 
+            <JobTable
+              jobs={jobs}
               loading={loading}
               onStatusChange={updateJobStatus}
               onDelete={deleteJob}

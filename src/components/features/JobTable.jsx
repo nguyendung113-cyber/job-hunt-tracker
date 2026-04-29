@@ -1,6 +1,6 @@
-import React from 'react';
-import JobCard from './JobCard';
-import './JobTable.css';
+import React from "react";
+import JobCard from "./JobCard";
+import "./JobTable.css";
 
 const JobTable = ({ jobs, loading, onStatusChange, onDelete }) => {
   if (loading && jobs.length === 0) {
