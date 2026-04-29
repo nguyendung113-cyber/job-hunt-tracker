@@ -1,0 +1,114 @@
+/* Dashboard Page Styles */
+.dashboard-page {
+  background-image: url("../assets/imgs/background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-container {
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: calc(var(--header-height) + 40px) 20px 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* Welcome Section */
+.welcome-section {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-xl);
+  padding: 60px 40px;
+  text-align: center;
+  box-shadow: var(--shadow-xl);
+}
+
+.welcome-section h1 {
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin-bottom: 16px;
+}
+
+.welcome-section p {
+  font-size: 18px;
+  color: var(--color-text-secondary);
+  margin-bottom: 32px;
+}
+
+.auth-prompt {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+.btn-primary {
+  padding: 14px 32px;
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.btn-secondary {
+  padding: 14px 32px;
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+/* Form & Table Containers */
+.add-job-form,
+.table-container {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: var(--radius-xl);
+  padding: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: var(--shadow-xl);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: calc(var(--header-height) + 20px) 16px 30px;
+    gap: 20px;
+  }
+
+  .welcome-section {
+    padding: 40px 24px;
+  }
+
+  .welcome-section h1 {
+    font-size: 28px;
+  }
+
+  .auth-prompt {
+    flex-direction: column;
+  }
+}

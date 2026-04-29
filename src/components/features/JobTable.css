@@ -1,0 +1,169 @@
+/* JobTable Styles */
+.table-container {
+  overflow-x: auto;
+}
+
+.job-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.job-table thead {
+  background-color: var(--color-bg-secondary);
+}
+
+.job-table th {
+  padding: 14px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-text-secondary);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.job-table td {
+  padding: 16px;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+.job-table tbody tr {
+  transition: background-color var(--transition-fast);
+}
+
+.job-table tbody tr:hover {
+  background-color: var(--color-bg-secondary);
+}
+
+/* Company Name */
+.company-name {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+/* JLPT Badge */
+.jlpt-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  background-color: #fef3c7;
+  color: #92400e;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Status Pill */
+.status-pill {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.status-applied {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.status-interviewing {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.status-offered {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.status-rejected {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.status-select {
+  padding: 6px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.btn-delete {
+  padding: 6px 10px;
+  background-color: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-delete:hover {
+  background-color: #fee2e2;
+  border-color: var(--color-error);
+}
+
+/* Notes */
+.notes-text {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  max-width: 200px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Loading & Empty States */
+.loading-state,
+.empty-state {
+  text-align: center;
+  padding: 40px;
+}
+
+.loading-state p,
+.empty-state p {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 8px;
+}
+
+.empty-state span {
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .job-table th,
+  .job-table td {
+    padding: 12px 8px;
+  }
+
+  .job-table th:first-child,
+  .job-table td:first-child {
+    padding-left: 16px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .status-select {
+    width: 100%;
+  }
+}
