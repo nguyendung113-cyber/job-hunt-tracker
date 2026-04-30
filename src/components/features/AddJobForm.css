@@ -5,58 +5,102 @@
   gap: 16px;
 }
 
-.add-job-form .form-group input {
-  width: 100%;
-  padding: 14px 18px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  font-size: 15px;
-  transition:
-    border-color var(--transition-fast),
-    box-shadow var(--transition-fast);
+.add-job-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.add-job-form .form-group input:focus {
+.add-job-form .form-group label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.add-job-form .form-group input,
+.add-job-form .form-group select,
+.add-job-form .form-group textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.add-job-form .form-group input:focus,
+.add-job-form .form-group select:focus,
+.add-job-form .form-group textarea:focus {
   outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 .add-job-form .form-group input::placeholder {
-  color: var(--color-text-muted);
+  color: #9ca3af;
 }
 
 .form-row {
   display: flex;
-  gap: 12px;
+  gap: 16px;
 }
 
-.form-row select {
+.form-row .form-group {
   flex: 1;
-  padding: 14px 18px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  font-size: 15px;
-  background-color: white;
-  cursor: pointer;
-  transition: border-color var(--transition-fast);
-}
-
-.form-row select:focus {
-  outline: none;
-  border-color: var(--color-primary);
 }
 
 .add-job-form textarea {
-  width: 100%;
-  padding: 14px 18px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  font-size: 15px;
   min-height: 100px;
   resize: vertical;
   font-family: inherit;
-  transition: border-color var(--transition-fast);
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.btn-cancel {
+  padding: 12px 24px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+  color: #374151;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-cancel:hover {
+  background: #f3f4f6;
+}
+
+.btn-submit {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  color: white;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background: linear-gradient(90deg, #2563eb, #1d4ed8);
+  transform: translateY(-1px);
+}
+
+.btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .add-job-form textarea:focus {
