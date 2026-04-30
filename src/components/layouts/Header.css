@@ -1,249 +1,105 @@
-/* Header container chính */
-.header-wrapper {
-  position: fixed;
+.header {
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
-  height: 70px;
-  background-color: rgba(255, 255, 255, 0.9); /* Trong suốt nhẹ */
-  backdrop-filter: blur(10px); /* Hiệu ứng mờ kính */
-  border-bottom: 1px solid #eeeeee;
-  z-index: 1000;
-  display: flex;
-  justify-content: center; /* Căn giữa nội dung bên trong */
+  z-index: 100;
+  height: 64px;
 }
 
-/* Khung giới hạn 1280px */
-.header-content {
-  width: 100%;
-  max-width: 1280px;
-  padding: 0 24px;
+.header-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-/* Bên trái: Logo */
-.logo-section {
+.header-left {
   display: flex;
   align-items: center;
-  gap: 10px;
-  cursor: pointer;
 }
 
-.logo-icon {
-  background-color: #2563eb;
-  color: white;
-  padding: 6px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.logo-text {
-  font-size: 24px;
+.header-logo {
+  font-size: 1.5rem;
   font-weight: 800;
-  color: #1a1a1a;
-  letter-spacing: -0.5px;
+  color: #3b82f6;
+  margin: 0;
 }
 
-.logo-text span {
-  color: #2563eb;
-}
-
-/* Bên phải: Auth Buttons */
-.auth-buttons {
+.header-right {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 24px;
 }
 
-.btn-login {
-  background: none;
-  border: none;
-  font-size: 14px;
-  font-weight: 600;
+.header-nav {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-link {
   color: #4b5563;
-  cursor: pointer;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
   transition: color 0.2s;
 }
 
-.btn-login:hover {
-  color: #2563eb;
+.nav-link:hover {
+  color: #3b82f6;
 }
 
-.btn-signup {
-  background-color: #2563eb;
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-email {
+  color: #6b7280;
+  font-size: 0.85rem;
+}
+
+.logout-btn,
+.login-btn,
+.signup-btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.logout-btn {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.logout-btn:hover {
+  background: #fecaca;
+}
+
+.login-btn {
+  background: transparent;
+  color: #3b82f6;
+  border: 1px solid #3b82f6;
+}
+
+.login-btn:hover {
+  background: #eff6ff;
+}
+
+.signup-btn {
+  background: #3b82f6;
   color: white;
-  border: none;
-  padding: 10px 24px;
-  border-radius: 50px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
 }
 
-.btn-signup:hover {
-  background-color: #1d4ed8;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-}
-
-.btn-signup:active {
-  transform: scale(0.96);
-}
-
-/* --- Các Style có sẵn giữ nguyên, thêm các phần dưới đây --- */
-
-/* 1. Nút Menu ẩn mặc định trên Desktop */
-.menu-toggle {
-  display: none;
-  background: none;
-  border: none;
-  color: #1a1a1a;
-  cursor: pointer;
-  z-index: 1001;
-}
-
-/* 2. Responsive cho màn hình nhỏ hơn 768px (Mobile) */
-@media (max-width: 768px) {
-  .menu-toggle {
-    display: block; /* Hiện nút hamburger */
-  }
-
-  .auth-buttons {
-    display: none; /* Ẩn menu mặc định */
-    position: fixed;
-    top: 70px;
-    left: 0;
-    right: 0;
-    background: white;
-    flex-direction: column; /* Xếp dọc các nút */
-    padding: 20px;
-    gap: 20px;
-    border-bottom: 1px solid #eee;
-    box-shadow: 0 10px 15px rgba(0,0,0,0.05);
-  }
-
-  /* Khi nhấn nút Menu, thêm class .active để hiện menu */
-  .auth-buttons.active {
-    display: flex;
-    animation: slideDown 0.3s ease-out;
-  }
-
-  .btn-signup {
-    width: 100%; /* Nút bấm to ra cho dễ bấm bằng tay */
-    text-align: center;
-  }
-
-  .btn-login {
-    width: 100%;
-    padding: 10px;
-  }
-}
-
-/* Hiệu ứng trượt xuống mượt mà */
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-} 
-
-/* Container cho User sau khi đăng nhập */
-.user-profile-nav {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.user-email-display {
-  font-size: 14px;
-  color: #4b5563;
-  font-weight: 500;
-  background: #f3f4f6;
-  padding: 6px 12px;
-  border-radius: 20px;
-}
-
-.btn-logout {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: white;
-  border: 1px solid #e5e7eb;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #374151;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-logout:hover {
-  background: #fef2f2;
-  color: #dc2626;
-  border-color: #fecaca;
-}
-
-/* Responsive cho mobile */
-@media (max-width: 768px) {
-  .user-profile-nav {
-    flex-direction: column;
-    width: 100%;
-    align-items: flex-start;
-  }
-  .btn-logout {
-    width: 100%;
-    justify-content: center;
-  }
-}/* Container cho User sau khi đăng nhập */
-.user-profile-nav {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.user-email-display {
-  font-size: 14px;
-  color: #4b5563;
-  font-weight: 500;
-  background: #f3f4f6;
-  padding: 6px 12px;
-  border-radius: 20px;
-}
-
-.btn-logout {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: white;
-  border: 1px solid #e5e7eb;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #374151;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-logout:hover {
-  background: #fef2f2;
-  color: #dc2626;
-  border-color: #fecaca;
-}
-
-/* Responsive cho mobile */
-@media (max-width: 768px) {
-  .user-profile-nav {
-    flex-direction: column;
-    width: 100%;
-    align-items: flex-start;
-  }
-  .btn-logout {
-    width: 100%;
-    justify-content: center;
-  }
+.signup-btn:hover {
+  background: #2563eb;
 }

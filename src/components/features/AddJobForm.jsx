@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { useJobs } from "../../hooks/useJobs";
+import { useAuth } from "../../hooks/useAuth";
+import { useApplications } from "../../hooks/useApplications";
+import { supabase } from "../../lib/supabase";
+import toast from "react-hot-toast";
 import {
   JLPT_OPTIONS,
   JOB_STATUS_OPTIONS,
@@ -8,16 +11,67 @@ import {
 import "./AddJobForm.css";
 
 const AddJobForm = ({ onJobAdded }) => {
-  const { addJob, loading: isLoading } = useJobs();
+  const { user } = useAuth();
+  const { addApplication, loading: isLoading } = useApplications(user?.id);
   const [formData, setFormData] = useState(DEFAULT_JOB_DATA);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await addJob(formData);
 
-    if (result.success) {
-      setFormData(DEFAULT_JOB_DATA);
-      if (onJobAdded) onJobAdded(result.data);
+    if (!user) {
+      toast.error("Vui lòng đăng nhập để thêm công việc");
+      return;
+    }
+
+    try {
+      // Tìm hoặc tạo company trước
+      let companyId;
+
+      // Tìm company theo tên
+      const { data: existingCompanies } = await supabase
+        .from("companies")
+        .select("id")
+        .eq("user_id", user.id)
+        .ilike("name", `%${formData.company_name}%`)
+        .limit(1);
+
+      if (existingCompanies && existingCompanies.length > 0) {
+        companyId = existingCompanies[0].id;
+      } else {
+        // Tạo company mới
+        const { data: newCompany, error: companyError } = await supabase
+          .from("companies")
+          .insert([
+            {
+              user_id: user.id,
+              name: formData.company_name,
+            },
+          ])
+          .select("id")
+          .single();
+
+        if (companyError) throw companyError;
+        companyId = newCompany.id;
+      }
+
+      // Tạo application
+      const applicationData = {
+        user_id: user.id,
+        company_id: companyId,
+        job_title: formData.position || "Developer",
+        status: formData.status || "Applied",
+        applied_at: new Date().toISOString(),
+      };
+
+      const result = await addApplication(applicationData);
+
+      if (result.success) {
+        setFormData(DEFAULT_JOB_DATA);
+        if (onJobAdded) onJobAdded(result.data);
+      }
+    } catch (err) {
+      console.error("Error adding job:", err);
+      toast.error(`Lỗi: ${err.message}`);
     }
   };
 

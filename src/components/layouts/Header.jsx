@@ -2,52 +2,47 @@ import React, { useState } from "react";
 import { BriefcaseBusiness, Menu, X, LogOut } from "lucide-react";
 import "./Header.css";
 
+// Header.jsx - Đảm bảo header nằm trên cùng bên phải
 const Header = ({ user, onLogout, onLoginClick, onSignupClick }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-
   return (
-    <header className="header-wrapper">
-      <div className="header-content">
-        {/* Logo */}
-        <div className="logo-section">
-          <div className="logo-icon">
-            <BriefcaseBusiness size={22} />
-          </div>
-          <h1 className="logo-text">
-            Job<span>Up</span>
-          </h1>
+    <header className="header">
+      <div className="header-container">
+        {/* Logo bên trái */}
+        <div className="header-left">
+          <h1 className="header-logo">JobUp</h1>
         </div>
 
-        {/* Hamburger (Mobile) */}
-        <button
-          className="menu-toggle"
-          onClick={toggleMenu}
-          aria-label="Toggle menu"
-        >
-          {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
-
-        {/* Auth Buttons */}
-        <div className={`auth-buttons ${isMenuOpen ? "active" : ""}`}>
+        {/* Navigation và user menu bên phải */}
+        <div className="header-right">
           {user ? (
-            <div className="user-profile-nav">
-              <span className="user-email-display">{user.email}</span>
-              <button className="btn-logout" onClick={onLogout}>
-                <LogOut size={18} />
-                <span>Đăng xuất</span>
+            <>
+              <nav className="header-nav">
+                <a href="#" className="nav-link">
+                  Dashboard
+                </a>
+                <a href="#" className="nav-link">
+                  Applications
+                </a>
+                <a href="#" className="nav-link">
+                  Analytics
+                </a>
+              </nav>
+              <div className="user-menu">
+                <span className="user-email">{user.email}</span>
+                <button onClick={onLogout} className="logout-btn">
+                  Logout
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className="auth-buttons">
+              <button onClick={onLoginClick} className="login-btn">
+                Login
+              </button>
+              <button onClick={onSignupClick} className="signup-btn">
+                Sign Up
               </button>
             </div>
-          ) : (
-            <>
-              <button className="btn-login" onClick={onLoginClick}>
-                Log in
-              </button>
-              <button className="btn-signup" onClick={onSignupClick}>
-                Sign up free
-              </button>
-            </>
           )}
         </div>
       </div>

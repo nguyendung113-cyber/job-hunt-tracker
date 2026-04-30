@@ -1,0 +1,81 @@
+/* CompanyForm Styles */
+.company-form {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.company-form h3 {
+  margin: 0 0 20px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.company-form .form-group {
+  margin-bottom: 16px;
+}
+
+.company-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.company-form input,
+.company-form textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.company-form input:focus,
+.company-form textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.company-form input::placeholder,
+.company-form textarea::placeholder {
+  color: #9ca3af;
+}
+
+.company-form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.company-form .form-actions {
+  margin-top: 20px;
+}
+
+.company-form button {
+  width: 100%;
+  padding: 12px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.company-form button:hover:not(:disabled) {
+  background-color: #1d4ed8;
+}
+
+.company-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

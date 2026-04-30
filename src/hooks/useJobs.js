@@ -15,7 +15,7 @@ export const useJobs = (userId) => {
   // Fetch jobs from Supabase
   const fetchJobs = useCallback(async () => {
     if (!userId) {
-      console.log("Chưa đăng nhập");
+      console.log("Chưa đăng nhập - useJobs");
       return;
     }
 
@@ -24,10 +24,16 @@ export const useJobs = (userId) => {
 
     try {
       const { data, error: fetchError } = await supabase
-        .from("jobs")
-        .select("*")
+        .from("applications")
+        .select(
+          `
+          *,
+          companies (id, name, website),
+          resumes (id, version_name)
+        `,
+        )
         .eq("user_id", userId)
-        .order("created_at", { ascending: false });
+        .order("applied_at", { ascending: false });
 
       if (fetchError) {
         throw fetchError;
