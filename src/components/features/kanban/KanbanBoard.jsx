@@ -5,7 +5,7 @@ import { GripVertical, AlertTriangle } from "lucide-react";
 import { JOB_STATUS, KANBAN_COLUMNS } from "../../../constants/jobStatus";
 import "./KanbanBoard.css";
 
-const KanbanBoard = ({ jobs = [], onJobsUpdate }) => {
+const KanbanBoard = ({ jobs = [], onJobsUpdate, onStatusChange }) => {
   const [draggedItem, setDraggedItem] = useState(null);
   const [dragOverColumn, setDragOverColumn] = useState(null);
   const [localJobs, setLocalJobs] = useState(jobs);
@@ -122,6 +122,9 @@ const KanbanBoard = ({ jobs = [], onJobsUpdate }) => {
         `Đã chuyển sang ${KANBAN_COLUMNS.find((c) => c.id === newStatus)?.title}`,
       );
 
+      // Trigger callback to refresh sidebar stats
+      onStatusChange?.();
+
       // Update with server data
       if (data && data.length > 0) {
         setLocalJobs((prev) =>
@@ -169,13 +172,9 @@ const KanbanBoard = ({ jobs = [], onJobsUpdate }) => {
                 className="column-header"
                 style={{ backgroundColor: col.color }}
               >
+                <span className="status-icon">{col.icon}</span>
                 <span>{col.title}</span>
-                <span className="count-badge">{count}</span>
-                {col.wipLimit && (
-                  <span style={{ fontSize: "0.75rem" }}>
-                    ({count}/{col.wipLimit})
-                  </span>
-                )}
+                <span className="column-count">{count}</span>
               </div>
 
               <div className="column-content">

@@ -6,6 +6,7 @@ import Header from "../components/layouts/Header";
 import Footer from "../components/layouts/Footer";
 import Sidebar from "../components/layouts/Sidebar";
 import AddJobForm from "../components/features/AddJobForm";
+import Modal from "../components/common/Modal";
 import KanbanBoard from "../components/features/kanban/KanbanBoard";
 import ApplicationList from "../components/features/ApplicationList";
 import LoginModal from "../components/features/LoginModal";
@@ -29,6 +30,7 @@ const Dashboard = ({ view }) => {
 
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
+  const [showAddJob, setShowAddJob] = useState(false);
   const [activeView, setActiveView] = useState(view || "kanban");
 
   // Sync activeView with view prop
@@ -106,14 +108,19 @@ const Dashboard = ({ view }) => {
                   <h2 className="dashboard-title">
                     {activeView === "kanban" ? "Kanban Board" : "Table View"}
                   </h2>
+                  <button
+                    className="btn-add-job"
+                    onClick={() => setShowAddJob(true)}
+                  >
+                    + Tạo hồ sơ mới
+                  </button>
                 </div>
-
-                <AddJobForm onJobAdded={handleJobAdded} />
 
                 {activeView === "kanban" ? (
                   <KanbanBoard
                     jobs={applications}
                     onJobsUpdate={handleJobsUpdate}
+                    onStatusChange={refresh}
                   />
                 ) : (
                   <ApplicationList userId={user.id} />
@@ -166,6 +173,18 @@ const Dashboard = ({ view }) => {
         onSwitchToLogin={openLogin}
         onSignup={signup}
       />
+
+      {/* Add Job Modal */}
+      <Modal
+        isOpen={showAddJob}
+        onClose={() => setShowAddJob(false)}
+        title="Tạo hồ sơ ứng tuyển mới"
+      >
+        <AddJobForm
+          onJobAdded={handleJobAdded}
+          onClose={() => setShowAddJob(false)}
+        />
+      </Modal>
     </div>
   );
 };

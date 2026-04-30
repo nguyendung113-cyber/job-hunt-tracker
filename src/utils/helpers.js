@@ -17,13 +17,13 @@ export const JOB_STATUS_OPTIONS = [
   { value: JOB_STATUS.REJECTED, label: "Từ chối" },
 ];
 
-// Japanese level options
+// Japanese level options (optional - for Japanese language learners)
 export const JLPT_LEVELS = {
   N1: "N1",
   N2: "N2",
   N3: "N3",
   N4: "N4",
-  NONE: "No JLPT",
+  NONE: "Không yêu cầu",
 };
 
 export const JLPT_OPTIONS = [
@@ -34,12 +34,46 @@ export const JLPT_OPTIONS = [
   { value: JLPT_LEVELS.NONE, label: "Không yêu cầu" },
 ];
 
+// Job type options
+export const JOB_TYPE = {
+  FULLTIME: "Full-time",
+  PARTTIME: "Part-time",
+  CONTRACT: "Contract",
+  INTERNSHIP: "Internship",
+  FREELANCE: "Freelance",
+};
+
+export const JOB_TYPE_OPTIONS = [
+  { value: JOB_TYPE.FULLTIME, label: "Toàn thời gian" },
+  { value: JOB_TYPE.PARTTIME, label: "Bán thời gian" },
+  { value: JOB_TYPE.CONTRACT, label: "Hợp đồng" },
+  { value: JOB_TYPE.INTERNSHIP, label: "Thực tập" },
+  { value: JOB_TYPE.FREELANCE, label: "Freelance" },
+];
+
+// Work mode options
+export const WORK_MODE = {
+  ONSITE: "On-site",
+  REMOTE: "Remote",
+  HYBRID: "Hybrid",
+};
+
+export const WORK_MODE_OPTIONS = [
+  { value: WORK_MODE.ONSITE, label: "Offline" },
+  { value: WORK_MODE.REMOTE, label: "Remote" },
+  { value: WORK_MODE.HYBRID, label: "Hybrid" },
+];
+
 // Default job form data
 export const DEFAULT_JOB_DATA = {
   company_name: "",
-  position: "Developer",
+  position: "",
   status: JOB_STATUS.APPLIED,
-  japanese_level: JLPT_LEVELS.N3,
+  job_url: "",
+  salary: "",
+  location: "",
+  job_type: JOB_TYPE.FULLTIME,
+  work_mode: WORK_MODE.ONSITE,
   notes: "",
 };
 

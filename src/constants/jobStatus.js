@@ -23,24 +23,28 @@ export const KANBAN_COLUMNS = [
   {
     id: JOB_STATUS.APPLIED,
     title: "REQUESTED",
+    icon: "📥",
     color: STATUS_COLORS[JOB_STATUS.APPLIED],
     wipLimit: null,
   },
   {
     id: JOB_STATUS.INTERVIEWING,
     title: "IN PROGRESS",
+    icon: "⏳",
     color: STATUS_COLORS[JOB_STATUS.INTERVIEWING],
     wipLimit: 4,
   },
   {
     id: JOB_STATUS.OFFERED,
     title: "DONE",
+    icon: "✅",
     color: STATUS_COLORS[JOB_STATUS.OFFERED],
     wipLimit: null,
   },
   {
     id: JOB_STATUS.REJECTED,
     title: "REJECTED",
+    icon: "❌",
     color: STATUS_COLORS[JOB_STATUS.REJECTED],
     wipLimit: null,
   },

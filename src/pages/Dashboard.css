@@ -31,7 +31,7 @@
 .dashboard-header {
   display: flex;
   align-items: center;
-  gap: 16px;
+  justify-content: space-between;
   margin-bottom: 24px;
   padding: 12px 0;
 }
@@ -41,6 +41,24 @@
   font-weight: 700;
   color: #1f2937;
   margin: 0;
+}
+
+.btn-add-job {
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-add-job:hover {
+  background: linear-gradient(90deg, #2563eb, #1d4ed8);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
 
 /* Welcome Section (Not logged in) */

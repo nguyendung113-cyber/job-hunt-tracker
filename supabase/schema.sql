@@ -48,6 +48,12 @@ CREATE TABLE IF NOT EXISTS public.applications (
     resume_id UUID REFERENCES public.resumes(id) ON DELETE SET NULL,
     job_title TEXT NOT NULL,
     status TEXT DEFAULT 'Applied' CHECK (status IN ('Applied', 'Interviewing', 'Offered', 'Rejected')),
+    job_type TEXT DEFAULT 'Full-time',
+    work_mode TEXT DEFAULT 'On-site',
+    location TEXT,
+    salary TEXT,
+    job_url TEXT,
+    notes TEXT,
     applied_at TIMESTAMPTZ DEFAULT now(),
     created_at TIMESTAMPTZ DEFAULT now(),
     updated_at TIMESTAMPTZ DEFAULT now()
