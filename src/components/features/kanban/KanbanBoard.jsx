@@ -1,45 +1,38 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "../../../lib/supabase";
 import toast from "react-hot-toast";
-import { GripVertical, AlertTriangle } from "lucide-react";
+import { GripVertical, AlertTriangle, Calendar, FileText, Heart } from "lucide-react";
 import { JOB_STATUS, KANBAN_COLUMNS } from "../../../constants/jobStatus";
+import { applicationService } from "../../../services/applicationService";
+import { useApplicationsContext } from "../../../contexts/ApplicationsContext";
+import { getResumeUrl } from "../../../utils/helpers";
+import InterviewDateModal from "./InterviewDateModal";
 import "./KanbanBoard.css";
 
 const KanbanBoard = ({ jobs = [], onJobsUpdate, onStatusChange }) => {
+  const { toggleFavoriteApplication } = useApplicationsContext();
   const [draggedItem, setDraggedItem] = useState(null);
   const [dragOverColumn, setDragOverColumn] = useState(null);
   const [localJobs, setLocalJobs] = useState(jobs);
-  const [loading, setLoading] = useState(true); // Thêm state loading
+  const [loading, setLoading] = useState(true);
+  
+  // Modal state
+  const [isInterviewModalOpen, setIsInterviewModalOpen] = useState(false);
+  const [pendingUpdate, setPendingUpdate] = useState(null);
 
-  // Sync local jobs with props
   useEffect(() => {
-    console.log("Received jobs:", jobs); // Log dữ liệu jobs để kiểm tra
     setLocalJobs(jobs);
+    if (jobs.length > 0) {
+      setLoading(false);
+    }
   }, [jobs]);
 
+  // Handle initial loading state
   useEffect(() => {
-    // Fetch latest jobs from server when component mounts
-    const fetchLatestJobs = async () => {
-      try {
-        setLoading(true); // Bắt đầu loading
-        const { data, error } = await supabase.from("applications").select(`
-            *,
-            companies (id, name, website),
-            resumes (id, version_name)
-          `);
-
-        if (error) throw error;
-
-        setLocalJobs(data || []);
-      } catch (err) {
-        console.error("Error fetching latest jobs:", err);
-        toast.error("Không thể tải dữ liệu mới nhất từ server.");
-      } finally {
-        setLoading(false); // Kết thúc loading
-      }
-    };
-
-    fetchLatestJobs();
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
   }, []);
 
   if (loading) {
@@ -85,7 +78,7 @@ const KanbanBoard = ({ jobs = [], onJobsUpdate, onStatusChange }) => {
 
     const applicationId = draggedItem.id;
 
-    // WIP Limit check for "In Progress" column
+    // WIP Limit check
     if (newStatus === JOB_STATUS.INTERVIEWING) {
       const inProgressCount = localJobs.filter(
         (j) => j.status === JOB_STATUS.INTERVIEWING,
@@ -94,51 +87,50 @@ const KanbanBoard = ({ jobs = [], onJobsUpdate, onStatusChange }) => {
         toast.error("Đã đạt giới hạn WIP cho cột In Progress (4)");
         return;
       }
+      
+      // Open modal instead of proceeding
+      setPendingUpdate({ applicationId, newStatus, item: draggedItem });
+      setIsInterviewModalOpen(true);
+      return;
     }
 
+    await performUpdate(applicationId, newStatus, draggedItem.interview_at);
+  };
+
+  const performUpdate = async (applicationId, newStatus, interviewAt) => {
     // Optimistic Update
     const updatedJobs = localJobs.map((job) =>
-      job.id === applicationId ? { ...job, status: newStatus } : job,
+      job.id === applicationId ? { ...job, status: newStatus, interview_at: interviewAt } : job,
     );
     setLocalJobs(updatedJobs);
     onJobsUpdate?.(updatedJobs);
 
     try {
-      const { data, error } = await supabase
-        .from("applications")
-        .update({
-          status: newStatus,
-          updated_at: new Date().toISOString(),
-        })
-        .eq("id", applicationId).select(`
-          *,
-          companies (id, name, website),
-          resumes (id, version_name)
-        `);
+      const data = await applicationService.update(applicationId, {
+        status: newStatus,
+        interview_at: interviewAt
+      });
 
-      if (error) throw error;
+      if (!data) throw new Error("No data returned from update");
 
       toast.success(
-        `Đã chuyển sang ${KANBAN_COLUMNS.find((c) => c.id === newStatus)?.title}`,
+        `Đã chuyển sang ${KANBAN_COLUMNS.find((c) => c.id === newStatus)?.title}`
       );
 
-      // Trigger callback to refresh sidebar stats
       onStatusChange?.();
 
-      // Update with server data
-      if (data && data.length > 0) {
-        setLocalJobs((prev) =>
-          prev.map((job) => (job.id === applicationId ? data[0] : job)),
-        );
-      }
+      setLocalJobs((prev) =>
+        prev.map((job) => (job.id === applicationId ? data : job)),
+      );
     } catch (err) {
       console.error("Error updating job status:", err);
-
-      // Rollback on error
+      // Rollback
       setLocalJobs(jobs);
       onJobsUpdate?.(jobs);
-
-      toast.error("Lỗi cập nhật trạng thái. Vui lòng thử lại!");
+      toast.error(`Lỗi cập nhật: ${err.message || "Vui lòng thử lại!"}`);
+    } finally {
+      setIsInterviewModalOpen(false);
+      setPendingUpdate(null);
     }
   };
 
@@ -181,28 +173,79 @@ const KanbanBoard = ({ jobs = [], onJobsUpdate, onStatusChange }) => {
                 {columnJobs.map((job) => (
                   <div
                     key={job.id}
-                    className="job-card"
+                    className="kanban-card"
                     draggable
                     onDragStart={(e) => handleDragStart(e, job)}
                     onDragEnd={handleDragEnd}
                   >
-                    <div className="card-drag-handle">
-                      <GripVertical size={16} />
+                    <div className="kanban-card-header">
+                      <div className="kanban-card-title">
+                        {job.job_title || job.position || "Chưa có vị trí"}
+                      </div>
+                      <button 
+                        className={`favorite-btn ${job.is_favorite ? 'is-favorite' : ''}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleFavoriteApplication(job.id, job.is_favorite);
+                        }}
+                      >
+                        <Heart size={16} fill={job.is_favorite ? "#ef4444" : "none"} />
+                      </button>
                     </div>
-                    <div className="card-info">
-                      <h4 className="company-name">
+                    {job.is_favorite && <div className="favorite-tag">✨ Favorite</div>}
+                    <div className="kanban-card-details">
+                      <span className="kanban-card-company">
+                        🏢{" "}
                         {job.companies?.name ||
                           job.company_name ||
                           "Chưa có tên công ty"}
-                      </h4>
-                      <p className="job-position">
-                        {job.job_title || job.position || "Chưa có vị trí"}
-                      </p>
-                      {job.japanese_level && (
-                        <span
-                          className={`level-badge ${job.japanese_level.toLowerCase()}`}
-                        >
-                          {job.japanese_level}
+                      </span>
+                      {(job.location || job.work_mode) && (
+                        <span className="kanban-card-meta">
+                          📍 {job.location || "---"} • {job.work_mode || "---"}
+                        </span>
+                      )}
+                      {job.salary && (
+                        <span className="kanban-card-meta">
+                          💰 {job.salary}
+                        </span>
+                      )}
+                      {job.interview_at && (
+                        <span className="kanban-card-meta interview-date-badge">
+                          📅 {new Date(job.interview_at).toLocaleString('vi-VN', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })}
+                        </span>
+                      )}
+                      {job.job_url && (
+                        <span className="kanban-card-meta">
+                          🔗{" "}
+                          <a
+                            href={job.job_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Xem JD
+                          </a>
+                        </span>
+                      )}
+                      {job.resumes && (
+                        <span className="kanban-card-meta cv-badge">
+                          <FileText size={12} />
+                          {job.resumes.file_path ? (
+                            <a
+                              href={getResumeUrl(job.resumes.file_path)}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {job.resumes.version_name || "Xem CV"}
+                            </a>
+                          ) : (
+                            <span>{job.resumes.version_name || "Chưa có CV"}</span>
+                          )}
                         </span>
                       )}
                     </div>
@@ -210,16 +253,9 @@ const KanbanBoard = ({ jobs = [], onJobsUpdate, onStatusChange }) => {
                 ))}
 
                 {columnJobs.length === 0 && (
-                  <div
-                    style={{
-                      padding: "20px",
-                      textAlign: "center",
-                      color: "#9ca3af",
-                      border: "2px dashed #d1d5db",
-                      borderRadius: "6px",
-                    }}
-                  >
-                    Kéo thả công việc vào đây
+                  <div className="kanban-empty">
+                    <div className="kanban-empty-icon">📋</div>
+                    <p>Chưa có công việc</p>
                   </div>
                 )}
               </div>
@@ -237,6 +273,17 @@ const KanbanBoard = ({ jobs = [], onJobsUpdate, onStatusChange }) => {
           );
         })}
       </div>
+
+      <InterviewDateModal
+        isOpen={isInterviewModalOpen}
+        onClose={() => setIsInterviewModalOpen(false)}
+        onSave={(date) => {
+          if (pendingUpdate) {
+            performUpdate(pendingUpdate.applicationId, pendingUpdate.newStatus, date);
+          }
+        }}
+        application={pendingUpdate?.item}
+      />
     </div>
   );
 };

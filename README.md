@@ -21,10 +21,26 @@ Security: Row Level Security (RLS) đảm bảo dữ liệu riêng tư cho từn
 
 [x] Containerized: Triển khai nhanh chóng với Docker.
 
+[x] Unit Testing: Hệ thống test suite với Vitest & React Testing Library.
+
 📦 Cài đặt và Chạy dự án
 1. Yêu cầu hệ thống
 Node.js (v18+)
-
 Docker & Docker Compose
+
+2. Chạy ứng dụng
+```bash
+npm install
+npm run dev
+```
+
+3. Chạy Unit Test
+```bash
+# Chạy test một lần
+npm test
+
+# Chạy test với giao diện UI trực quan
+npm run test:ui
+```
 
 Tài khoản Supabase

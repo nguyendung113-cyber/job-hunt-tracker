@@ -10,8 +10,6 @@ import {
   Archive,
   Settings,
   HelpCircle,
-  Search,
-  Plus,
   ChevronDown,
   User,
   LogOut,
@@ -55,34 +53,16 @@ const Sidebar = ({
           id: "dashboard",
           label: "Dashboard",
           icon: <LayoutDashboard size={18} />,
-          active: activeView === "dashboard",
-          onClick: () => onViewChange("kanban"),
+          active: activeView === "overview",
+          onClick: () => onViewChange("overview"),
         },
         {
-          id: "applications",
-          label: "Applications",
+          id: "kanban",
+          label: "Kanban Board",
           icon: <Briefcase size={18} />,
           count: stats.total,
-          active: activeView === "kanban" || activeView === "table",
-          hasSubmenu: true,
-          isExpanded: expandedMenus.applications,
-          onToggle: () => toggleMenu("applications"),
-          subItems: [
-            {
-              id: "kanban",
-              label: "Kanban Board",
-              icon: "📋",
-              active: activeView === "kanban",
-              onClick: () => onViewChange("kanban"),
-            },
-            {
-              id: "table",
-              label: "Table View",
-              icon: "📊",
-              active: activeView === "table",
-              onClick: () => onViewChange("table"),
-            },
-          ],
+          active: activeView === "kanban",
+          onClick: () => onViewChange("kanban"),
         },
       ],
     },
@@ -130,15 +110,15 @@ const Sidebar = ({
           id: "favorites",
           label: "Favorites",
           icon: <Star size={18} />,
-          active: false,
-          onClick: () => console.log("Favorites"),
+          active: activeView === "favorites",
+          onClick: () => onViewChange("favorites"),
         },
         {
           id: "analytics",
           label: "Analytics",
           icon: <TrendingUp size={18} />,
-          active: false,
-          onClick: () => console.log("Analytics"),
+          active: activeView === "analytics",
+          onClick: () => onViewChange("analytics"),
         },
       ],
     },
@@ -157,23 +137,7 @@ const Sidebar = ({
         </div>
       </div>
 
-      {/* Quick Search */}
-      <div className="sidebar-search">
-        <Search size={16} />
-        <input
-          type="text"
-          placeholder="Search applications..."
-          className="sidebar-search-input"
-        />
-      </div>
 
-      {/* New Application Button */}
-      <div className="sidebar-action">
-        <button className="sidebar-new-btn">
-          <Plus size={18} />
-          <span>New Application</span>
-        </button>
-      </div>
 
       {/* Navigation Menu */}
       <nav className="sidebar-navigation">
@@ -246,11 +210,19 @@ const Sidebar = ({
       {/* Bottom Section */}
       <div className="sidebar-bottom">
         <div className="sidebar-bottom-links">
-          <a className="sidebar-bottom-link" href="#">
+          <a 
+            className={`sidebar-bottom-link ${activeView === 'help' ? 'active' : ''}`} 
+            href="#"
+            onClick={(e) => { e.preventDefault(); onViewChange("help"); }}
+          >
             <HelpCircle size={16} />
             <span>Help & Support</span>
           </a>
-          <a className="sidebar-bottom-link" href="#">
+          <a 
+            className={`sidebar-bottom-link ${activeView === 'settings' ? 'active' : ''}`} 
+            href="#"
+            onClick={(e) => { e.preventDefault(); onViewChange("settings"); }}
+          >
             <Settings size={16} />
             <span>Settings</span>
           </a>

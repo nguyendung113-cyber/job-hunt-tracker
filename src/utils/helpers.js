@@ -70,11 +70,15 @@ export const DEFAULT_JOB_DATA = {
   position: "",
   status: JOB_STATUS.APPLIED,
   job_url: "",
-  salary: "",
+  salary_type: "negotiable",
+  salary_value: "",
+  salary_currency: "VNĐ",
+  resume_id: "",
   location: "",
   job_type: JOB_TYPE.FULLTIME,
   work_mode: WORK_MODE.ONSITE,
   notes: "",
+  interview_at: "",
 };
 
 // Status badge CSS class mapping
@@ -101,8 +105,14 @@ export const formatDate = (dateString) => {
 
 // Truncate text
 export const truncateText = (text, maxLength = 50) => {
-  if (!text || text.length <= maxLength) return text;
   return text.substring(0, maxLength) + "...";
+};
+
+// Get Resume URL from Supabase Storage
+export const getResumeUrl = (filePath) => {
+  if (!filePath) return null;
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  return `${supabaseUrl}/storage/v1/object/public/resumes/${filePath}`;
 };
 
 export default {

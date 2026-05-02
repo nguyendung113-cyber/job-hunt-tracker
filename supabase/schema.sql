@@ -54,6 +54,7 @@ CREATE TABLE IF NOT EXISTS public.applications (
     salary TEXT,
     job_url TEXT,
     notes TEXT,
+    interview_at TIMESTAMPTZ,
     applied_at TIMESTAMPTZ DEFAULT now(),
     created_at TIMESTAMPTZ DEFAULT now(),
     updated_at TIMESTAMPTZ DEFAULT now()

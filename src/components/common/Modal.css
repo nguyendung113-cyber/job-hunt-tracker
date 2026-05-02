@@ -27,6 +27,8 @@
   background: white;
   width: 100%;
   max-width: 400px;
+  max-height: 90vh;
+  overflow-y: auto;
   padding: 40px;
   border-radius: var(--radius-xl);
   position: relative;
@@ -34,6 +36,10 @@
   display: flex;
   flex-direction: column;
   animation: slideUp 0.3s ease;
+}
+
+.modal-container.large {
+  max-width: 800px;
 }
 
 @keyframes slideUp {
@@ -130,6 +136,24 @@
 
 .toggle-text span:hover {
   text-decoration: underline;
+}
+
+/* Custom Scrollbar for Modal */
+.modal-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal-container::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 10px;
+}
+
+.modal-container::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
 }
 
 /* Responsive */

@@ -1,0 +1,21 @@
+.favorites-page {
+  animation: fadeIn 0.5s ease;
+}
+
+.favorites-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  background: white;
+  padding: 16px 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f1f5f9;
+}
+
+.favorites-header p {
+  margin: 0;
+  font-weight: 500;
+  color: #64748b;
+}

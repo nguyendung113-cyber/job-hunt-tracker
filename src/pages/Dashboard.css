@@ -2,8 +2,10 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #f8fafc;
+  background-color: var(--color-bg-secondary);
   position: relative;
+  font-family: 'Inter', sans-serif;
+  transition: background-color var(--transition-normal);
 }
 
 .dashboard-layout {
@@ -12,53 +14,65 @@
   position: relative;
 }
 
-/* Main Content Area - Đẩy sang phải để nhường chỗ cho sidebar */
+/* Main Content Area */
 .dashboard-main {
   flex: 1;
   min-height: calc(100vh - 64px - 48px);
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   z-index: 1;
-  margin-left: 240px; /* Nhường chỗ cho sidebar cố định */
+  margin-left: 0;
+}
+
+.dashboard-main.with-sidebar {
+  margin-left: 240px; /* Exact match to sidebar width */
 }
 
 .dashboard-content {
-  padding: 24px;
-  max-width: 1400px;
-  margin: 0 auto;
+  padding: 32px;
+  width: 100%;
 }
 
 .dashboard-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
-  padding: 12px 0;
+  margin-bottom: 32px;
+  padding: 0;
 }
 
 .dashboard-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #1f2937;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
   margin: 0;
+  letter-spacing: -0.025em;
 }
 
 .btn-add-job {
-  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-size: 0.9rem;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
 }
 
 .btn-add-job:hover {
-  background: linear-gradient(90deg, #2563eb, #1d4ed8);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+  filter: brightness(1.1);
+}
+
+.btn-add-job:active {
+  transform: translateY(0);
 }
 
 /* Welcome Section (Not logged in) */
@@ -66,9 +80,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 80vh;
-  padding: 20px;
-  margin-left: 0; /* Không cần margin khi chưa đăng nhập */
+  min-height: calc(100vh - 64px - 48px); /* Trừ header và footer */
+  padding: 40px 20px;
+  width: 100%;
 }
 
 .welcome-content {
@@ -163,6 +177,7 @@
 
   .dashboard-content {
     padding: 16px;
+    padding-top: 80px; /* Add space for fixed header on mobile if needed */
   }
 
   .dashboard-title {

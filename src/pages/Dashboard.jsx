@@ -8,9 +8,15 @@ import Sidebar from "../components/layouts/Sidebar";
 import AddJobForm from "../components/features/AddJobForm";
 import Modal from "../components/common/Modal";
 import KanbanBoard from "../components/features/kanban/KanbanBoard";
-import ApplicationList from "../components/features/ApplicationList";
 import LoginModal from "../components/features/LoginModal";
 import SignupModal from "../components/features/SignupModal";
+import DashboardOverview from "../components/features/dashboard/DashboardOverview";
+import AnalyticsPage from "../components/features/pages/AnalyticsPage";
+import FavoritesPage from "../components/features/pages/FavoritesPage";
+import SettingsPage from "../components/features/pages/SettingsPage";
+import HelpPage from "../components/features/pages/HelpPage";
+import PrivacyPage from "../components/features/pages/PrivacyPage";
+import TermsPage from "../components/features/pages/TermsPage";
 import { Toaster } from "react-hot-toast";
 import "../styles/variables.css";
 import "../styles/global.css";
@@ -31,7 +37,8 @@ const Dashboard = ({ view }) => {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
   const [showAddJob, setShowAddJob] = useState(false);
-  const [activeView, setActiveView] = useState(view || "kanban");
+  const [activeView, setActiveView] = useState(view || "overview");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Sync activeView with view prop
   useEffect(() => {
@@ -84,46 +91,75 @@ const Dashboard = ({ view }) => {
       {user && (
         <Sidebar
           activeView={activeView}
-          onViewChange={handleViewChange}
+          onViewChange={(v) => {
+            handleViewChange(v);
+            setIsMobileMenuOpen(false);
+          }}
           applications={applications}
           userName={user?.user_metadata?.name || "User"}
           userEmail={user?.email || "user@example.com"}
           onLogout={logout}
+          isMobileOpen={isMobileMenuOpen}
+          onClose={() => setIsMobileMenuOpen(false)}
         />
       )}
 
       <div className="dashboard-layout">
-        <main className="dashboard-main">
+        <main className={`dashboard-main ${user ? "with-sidebar" : ""}`}>
           {user ? (
             <>
-              <Header
+               <Header
                 user={user}
                 onLogout={logout}
                 onLoginClick={openLogin}
                 onSignupClick={openSignup}
+                onMenuClick={() => setIsMobileMenuOpen(true)}
+                hideLogo={true}
               />
 
               <div className="dashboard-content">
                 <div className="dashboard-header">
                   <h2 className="dashboard-title">
-                    {activeView === "kanban" ? "Kanban Board" : "Table View"}
+                    {activeView === "overview" ? "Tổng quan" : 
+                     activeView === "kanban" ? "Kanban Board" : 
+                     activeView === "favorites" ? "Yêu thích" :
+                     activeView === "analytics" ? "Phân tích" :
+                     activeView === "settings" ? "Cài đặt" :
+                     activeView === "privacy" ? "Chính sách bảo mật" :
+                     activeView === "terms" ? "Điều khoản sử dụng" : "Trợ giúp"}
                   </h2>
-                  <button
-                    className="btn-add-job"
-                    onClick={() => setShowAddJob(true)}
-                  >
-                    + Tạo hồ sơ mới
-                  </button>
+                  {activeView === "overview" && (
+                    <button
+                      className="btn-add-job"
+                      onClick={() => setShowAddJob(true)}
+                    >
+                      + Tạo hồ sơ mới
+                    </button>
+                  )}
                 </div>
 
-                {activeView === "kanban" ? (
+                {activeView === "overview" ? (
+                  <DashboardOverview 
+                    applications={applications} 
+                  />
+                ) : activeView === "kanban" ? (
                   <KanbanBoard
                     jobs={applications}
                     onJobsUpdate={handleJobsUpdate}
                     onStatusChange={refresh}
                   />
+                ) : activeView === "favorites" ? (
+                  <FavoritesPage userId={user.id} />
+                ) : activeView === "analytics" ? (
+                  <AnalyticsPage applications={applications} />
+                ) : activeView === "settings" ? (
+                  <SettingsPage user={user} />
+                ) : activeView === "privacy" ? (
+                  <PrivacyPage />
+                ) : activeView === "terms" ? (
+                  <TermsPage />
                 ) : (
-                  <ApplicationList userId={user.id} />
+                  <HelpPage />
                 )}
               </div>
 
@@ -179,6 +215,7 @@ const Dashboard = ({ view }) => {
         isOpen={showAddJob}
         onClose={() => setShowAddJob(false)}
         title="Tạo hồ sơ ứng tuyển mới"
+        className="large"
       >
         <AddJobForm
           onJobAdded={handleJobAdded}

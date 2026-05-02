@@ -9,19 +9,29 @@ import {
   ChevronUp,
   Trash2,
   Plus,
+  FileText,
+  Heart,
 } from "lucide-react";
 import { JOB_STATUS, STATUS_LABELS } from "../../constants/jobStatus";
+import { useApplicationsContext } from "../../contexts/ApplicationsContext";
+import { getResumeUrl } from "../../utils/helpers";
+import ConfirmModal from "./dashboard/ConfirmModal";
 import "./ApplicationList.css";
 
-const ApplicationList = ({ userId }) => {
+const ApplicationList = ({ userId, filterFavorite = false }) => {
   const {
-    applications,
+    applications: allApplications,
     loading,
     addApplication,
     updateApplicationStatus,
     deleteApplication,
+    toggleFavoriteApplication,
     getStatistics,
-  } = useApplications(userId);
+  } = useApplicationsContext();
+
+  const applications = filterFavorite 
+    ? allApplications.filter(app => app.is_favorite)
+    : allApplications;
 
   const { companies } = useCompanies(userId);
   const { resumes } = useResumes(userId);
@@ -35,6 +45,8 @@ const ApplicationList = ({ userId }) => {
     job_title: "",
     status: JOB_STATUS.APPLIED,
   });
+  
+  const [deleteConfirm, setDeleteConfirm] = useState({ show: false, id: null });
 
   const stats = getStatistics();
 
@@ -63,7 +75,13 @@ const ApplicationList = ({ userId }) => {
   };
 
   const handleDelete = async (appId) => {
-    await deleteApplication(appId);
+    setDeleteConfirm({ show: true, id: appId });
+  };
+
+  const confirmDelete = async () => {
+    if (deleteConfirm.id) {
+      await deleteApplication(deleteConfirm.id);
+    }
   };
 
   const toggleExpand = (appId) => {
@@ -212,6 +230,15 @@ const ApplicationList = ({ userId }) => {
                 </div>
 
                 <div className="card-right">
+                  <button 
+                    className={`favorite-btn-table ${app.is_favorite ? 'is-favorite' : ''}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleFavoriteApplication(app.id, app.is_favorite);
+                    }}
+                  >
+                    <Heart size={16} fill={app.is_favorite ? "#ef4444" : "none"} />
+                  </button>
                   <span className={`status-badge ${app.status?.toLowerCase()}`}>
                     {STATUS_LABELS[app.status] || app.status}
                   </span>
@@ -244,7 +271,20 @@ const ApplicationList = ({ userId }) => {
                   {app.resumes && (
                     <div className="detail-row">
                       <label>CV:</label>
-                      <span>{app.resumes.version_name}</span>
+                      <span className="cv-link">
+                        <FileText size={14} />
+                        {app.resumes.file_path ? (
+                          <a
+                            href={getResumeUrl(app.resumes.file_path)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {app.resumes.version_name || "Xem CV"}
+                          </a>
+                        ) : (
+                          <span>{app.resumes.version_name || "Chưa có CV"}</span>
+                        )}
+                      </span>
                     </div>
                   )}
 
@@ -263,6 +303,14 @@ const ApplicationList = ({ userId }) => {
           ))
         )}
       </div>
+
+      <ConfirmModal
+        isOpen={deleteConfirm.show}
+        onClose={() => setDeleteConfirm({ show: false, id: null })}
+        onConfirm={confirmDelete}
+        title="Xác nhận xóa đơn ứng tuyển"
+        message="Bạn có chắc chắn muốn xóa đơn ứng tuyển này? Dữ liệu sẽ bị xóa vĩnh viễn khỏi hệ thống."
+      />
     </div>
   );
 };

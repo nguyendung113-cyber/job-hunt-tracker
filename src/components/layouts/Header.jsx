@@ -3,13 +3,18 @@ import { BriefcaseBusiness, Menu, X, LogOut } from "lucide-react";
 import "./Header.css";
 
 // Header.jsx - Đảm bảo header nằm trên cùng bên phải
-const Header = ({ user, onLogout, onLoginClick, onSignupClick }) => {
+const Header = ({ user, onLogout, onLoginClick, onSignupClick, onMenuClick, hideLogo }) => {
   return (
     <header className="header">
       <div className="header-container">
         {/* Logo bên trái */}
         <div className="header-left">
-          <h1 className="header-logo">JobUp</h1>
+          {user && (
+            <button className="mobile-menu-toggle" onClick={onMenuClick}>
+              <Menu size={24} />
+            </button>
+          )}
+          {!hideLogo && <h1 className="header-logo">JobUp</h1>}
         </div>
 
         {/* Navigation và user menu bên phải */}
